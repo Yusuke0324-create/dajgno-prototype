@@ -140,4 +140,3 @@ STATIC_ROOT = '/var/www/{}/static'.format(PROJECT_NAME)
 # メディアファイルに関する設定
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-

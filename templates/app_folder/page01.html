@@ -22,7 +22,7 @@
 <h5>スポット一覧<br></h5>
 
     {% for shop in object_list %}
-            <p style="margin: 20px;">{{ shop.name }}</p>
+            <p style="margin: 20px;"><a href="{% url 'lunchmap:detail' shop.id %}">{{ shop.name }}</a></p>
     {% endfor %}
     
     {% endblock %}

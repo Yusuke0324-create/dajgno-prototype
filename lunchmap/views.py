@@ -32,9 +32,16 @@ class SampleView(View):  #一覧表示、検索機能のトップページ
 top_page = SampleView.as_view()
 
 class DetailView(generic.DetailView):
-	model = Shop
+	def get(self, request, *args, **kwargs): 
+		shops = Shop.objects.all()
+		context = {
+			'object_list': shops,
+		}
+		return render(request, 'app_folder/detail.html', context = context)
+detail = DetailView.as_view()
+
 #ここにdetailview.htmlまで持っていくために必要なコードを書く。
-#$def get(self, request, *args, **kwargs): 
+#def get(self, request, *args, **kwargs): 
 		#shops = Shop.objects.all()
 		#context = {
          #   'object_list': shops,

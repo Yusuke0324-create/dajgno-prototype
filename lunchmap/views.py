@@ -28,7 +28,6 @@ class SampleView(View):  #一覧表示、検索機能のトップページ
 		}
 		return render(request, 'app_folder/page02.html', context=context)
 
-		
 top_page = SampleView.as_view()
 
 class DetailView(generic.DetailView):
@@ -37,30 +36,6 @@ class DetailView(generic.DetailView):
 		context = {
 			'object_list': shops,
 		}
-		return render(request, 'app_folder/detail.html', context = context)
-detail = DetailView.as_view()
-
-#ここにdetailview.htmlまで持っていくために必要なコードを書く。
-#def get(self, request, *args, **kwargs): 
-		#shops = Shop.objects.all()
-		#context = {
-         #   'object_list': shops,
-        #}
-		#return render(request, 'app_folder/page01.html', context=context)
-#具体的には上のような感じになると予想できる。上記コードはSampleviewのパクリ
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		return render(request, 'app_folder/detail_base.html', context = context)
 
 detail_page = DetailView.as_view()

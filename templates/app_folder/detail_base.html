@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>{{ shop.name }}</h1>
+<h1>{{ object_list.name }}</h1>
 <div>
-    <p>{{ shop.category.name }}</p>
-    <p>{{ shop.address }}</p>
+    <p>{{ object_list.category.name }}</p>
+    <p>{{ object_list.address }}</p>
 </div>
 <div>
     <a href='{% url "lunchmap:top_page" %}'>一覧を表示</a>

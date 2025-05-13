@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {%block contents%}
 <h4 class="mt-5 mb-4 border-bottom">検索条件を入力</h4>
-<form  action="{% url 'lunchmap:top_page' %}" method="post">
+<form  action="{% url 'lunchmap:top_page' %}" method="post">　  
     <div class="container-fluid">
       <div class="row">
         <div class="col-2">
@@ -22,7 +22,7 @@
 <h5>スポット一覧<br></h5>
 
     {% for shop in object_list %}
-            <p style="margin: 20px;"><a href="{% url 'lunchmap:detail' shop.id %}">{{ shop.name }}</a></p>
+            <p style="margin: 20px;"><a href="{% url 'lunchmap:detail_page' shop.id %}">{{ shop.name }}</a></p>
     {% endfor %}
     
     {% endblock %}

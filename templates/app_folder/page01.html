@@ -25,5 +25,30 @@
             <p style="margin: 20px;"><a href="{% url 'lunchmap:detail_page' shop.id %}">{{ shop.name }}</a></p>
     {% endfor %}
     
+
+
+
+
+<!-- ↓↓ここから画像表示↓↓ -->
+{% for shop in object_list %}
+  <div>
+    <h3>{{ shop.name }}</h3>
+    <p>{{ shop.address }}</p>
+
+    {% if shop.image %}
+      <img src="{{ shop.image.url }}" alt="{{ shop.name }}" width="300">
+    {% else %}
+      <p>画像はまだありません</p>
+    {% endif %}
+  </div>
+{% endfor %}
+
+<!-- ↑↑ここまで画像表示↑↑ -->
+
+
+
+
+
+
     {% endblock %}
 

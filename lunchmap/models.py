@@ -24,6 +24,7 @@ class Shop(models.Model):
         Category,
         on_delete=models.PROTECT,
     )
+    image = models.ImageField(upload_to='shop_images/', null = True, blank = True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

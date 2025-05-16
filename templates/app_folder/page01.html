@@ -1,54 +1,43 @@
 {% extends 'base.html' %}
-{%block contents%}
+{% block contents %}
 <h4 class="mt-5 mb-4 border-bottom">検索条件を入力</h4>
-<form  action="{% url 'lunchmap:top_page' %}" method="post">　  
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-2">
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- 左側カラム：検索フォームとスポット一覧 -->
+    <div class="col-md-6">
+      <form action="{% url 'lunchmap:top_page' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
           <input class="form-control" type="text" name="input_data" maxlength="255">
         </div>
-        <div class="col-2">
-          <div class="text-left align-bottom">
-              <button type="submit" name="button" class="btn btn-info">
-                検索
-              </button>
-          </div>
-        </div>
-      </div>
+        <button type="submit" name="button" class="btn btn-info">検索</button>
+      </form>
+
+      <br><br>
+      <h5>スポット一覧</h5>
+      {% for shop in object_list %}
+        <p style="margin: 20px;">
+          <a href="{% url 'lunchmap:detail_page' shop.id %}">{{ shop.name }}</a>
+        </p>
+      {% endfor %}
     </div>
-    {% csrf_token %}
-    </form>
-<br><br>
-<h5>スポット一覧<br></h5>
 
-    {% for shop in object_list %}
-            <p style="margin: 20px;"><a href="{% url 'lunchmap:detail_page' shop.id %}">{{ shop.name }}</a></p>
-    {% endfor %}
-    
-
-
-
-
-<!-- ↓↓ここから画像表示↓↓ -->
-{% for shop in object_list %}
-  <div>
-    <h3>{{ shop.name }}</h3>
-    <p>{{ shop.address }}</p>
-
-    {% if shop.image %}
-      <img src="{{ shop.image.url }}" alt="{{ shop.name }}" width="300">
-    {% else %}
-      <p>画像はまだありません</p>
-    {% endif %}
+    <!-- 右側カラム：画像の表示 -->
+    <div class="col-md-6">
+      <h5>画像一覧</h5>
+      {% for shop in object_list %}
+        <div class="mb-4">
+          <h6>{{ shop.name }}</h6>
+          <p>{{ shop.address }}</p>
+          {% if shop.image %}
+            <img src="{{ shop.image.url }}" alt="{{ shop.name }}" width="300" class="img-fluid">
+          {% else %}
+            <p>画像はまだありません</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
   </div>
-{% endfor %}
-
-<!-- ↑↑ここまで画像表示↑↑ -->
-
-
-
-
-
-
-    {% endblock %}
-
+</div>
+{% endblock %}

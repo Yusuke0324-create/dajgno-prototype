@@ -23,9 +23,11 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('lunchmap/', include('lunchmap.urls')),
-    path('admin/', admin.site.urls),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('lunchmap/', include('lunchmap.urls')),#トップページ
+    path('admin/', admin.site.urls),#管理サイト
     path('', views.index, name='index'),
+    
 
 ]
 

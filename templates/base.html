@@ -1,120 +1,56 @@
 <!DOCTYPE html>
-
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='slim' %}
-{% load static %}
-
 <html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" type='text/css' href="{% static 'css/style.css'%}">
-    <link rel="stylesheet" href="https://cccabinet.jpn.org/bootstrap4/css/style.css">
-    <title> Django開発サンプル </title>
-
-    {% block extra_css %}{% endblock %}
-
+<head>
+    <meta charset="UTF-8">
+    <title>ブログ一覧</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+        body { font-family: 'Noto Sans JP', sans-serif; }
+    </style>
 </head>
+<body class="bg-gradient-to-b from-gray-100 to-white text-gray-900">
 
-  <body>
-    <!-- ↓↓１番上のナビゲーションバー↓↓ -->
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <nav class="navbar navbar-expand-lg fixed-top navbar-dark bs-navbar" style='background-color:cadetblue;' id="bs-navbar">
-            <a class="navbar-brand mr-md-2" href="/app_folder/top_page">
-              店webアプリサンプル一覧画面
-            </a>
-              <!-- ↓↓レイアウトを調整する為のダミー↓↓ -->
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="#">   </a></li>
-                <li class="nav-item"><a class="nav-link" href="#">   </a></li>
-              </ul>
-              <!-- ↑↑ダミーここまで↑↑ -->                            
-
-              <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="/#" >サンプル１</a></li>
-                <li class="nav-item"><a class="nav-link" href="/#" >サンプル２</a></li>
-                <li class="nav-item"><a class="nav-link" href="/#" >サンプル３</a></li>
-                <li class="nav-item"><a class="nav-link" href="/accounts/login" >ログイン</a></li>
-                <li class="nav-item"><a class="nav-link" href="/accounts/logout" >ログアウト</a></li>
-              </ul>
-            </div>
-          </nav>
+    <!-- ヘッダー -->
+    <header class="bg-white shadow sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl sm:text-2xl font-bold text-gray-800">🍱 ランチマップブログ</h1>
+            <nav class="space-x-4 text-sm sm:text-base">
+                <a href="#" class="text-gray-700 hover:text-indigo-500">ホーム</a>
+                <a href="#" class="text-gray-700 hover:text-indigo-500">店舗一覧</a>
+            </nav>
         </div>
-      </div>
-    </div>
+    </header>
 
+    <!-- メイン -->
+    <main class="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold mb-10 text-center text-gray-800">最新のブログ投稿</h2>
 
-    <!-- 「サイドバー」と「コンテンツ本体部分」 -->
-    <div id="content" class="container-fluid">
-      <div class="row flex-xl-nowrap">
-
-        <!-- ↓↓サイドバー↓↓ -->
-        <div id="sidemenu" class="col-2 d-none d-md-block bg-light sidebar align-self-start">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-
-              <li class="nav-item">
-                <nav class="navbar navbar-light bg-light">
-                  <a class="navbar-brand" href="/#">
-                    <span data-feather=""></span>Topページ 
-                  </a>
-                </nav>
-              </li>
-              <li class="nav-item">
-                <nav class="navbar navbar-light bg-light">
-                  <a class='navbar-brand' href='/#'>
-                    <span data-feather=""></span>サイドバー１
-                  </a>
-                </nav>
-              </li>
-              <li class="nav-item">
-                <nav class="navbar navbar-light bg-light">
-                  <a class='navbar-brand' href='/#'>
-                    <span data-feather=""></span>サイドバー２
-                  </a>
-                </nav>
-              </li>         
-              <li class="nav-item">
-                <nav class="navbar navbar-light bg-light">
-                  <a class='navbar-brand' href='/#'>
-                    <span data-feather=""></span>サイドバー３
-                  </a>
-                </nav>
-              </li>         
-              <li class="nav-item">
-                <nav class="navbar navbar-light bg-light">
-                  <a class='navbar-brand' href='/#'>
-                    <span data-feather=""></span>サイドバー４
-                  </a>
-                </nav>
-              </li>         
-              <li class="nav-item">
-                <nav class="navbar navbar-light bg-light">
-                  <a class='navbar-brand' href='/#'>
-                    <span data-feather=""></span>サイドバー５
-                  </a>
-                </nav>
-              </li>         
-            </ul>
-          </div>
-        </div id="sidemenu">
-        <!-- ↑↑サイドバーここまで↑↑ -->
-
-        <!-- ↓↓コンテンツ本体↓↓ -->
-        <div class="col-10">
-          {% block contents %}
-          {% endblock %}
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {% for blog in blogs %}
+            <article class="bg-white rounded-2xl shadow-lg overflow-hidden transition hover:shadow-2xl duration-300">
+                <div class="p-6 flex flex-col h-full">
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">{{ blog.title }}</h3>
+                    <p class="text-sm text-gray-500 mb-2">店舗: {{ blog.shop.name }}｜著者: {{ blog.author.username }}</p>
+                    <div class="text-sm text-gray-700 prose max-w-none mb-4 line-clamp-5">
+                        {{ blog.content|safe }}
+                    </div>
+                    <div class="mt-auto text-right text-xs text-gray-400">
+                        投稿日: {{ blog.created_at|date:"Y/m/d H:i" }}
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <p class="col-span-full text-center text-gray-500">まだブログ投稿がありません。</p>
+            {% endfor %}
         </div>
-        <!-- ↑↑コンテンツ本体ここまで↑↑ -->
-      </div>
-    </div>
-    </div>
-  </body>
+    </main>
+
+    <!-- フッター -->
+    <footer class="text-center py-6 text-sm text-gray-400">
+        &copy; 2025 ランチマップブログ
+    </footer>
+
+</body>
 </html>
-
-<!-- サイドバーに使用しているアイコン -->
-<!-- 使用できるアイコンの一覧： https://voyager-jp.com/blog/javascript/feather/ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-<script>feather.replace()</script>

@@ -1,43 +1,55 @@
 {% extends 'base.html' %}
+
 {% block contents %}
-<h4 class="mt-5 mb-4 border-bottom">検索条件を入力</h4>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-4xl mx-auto">
+        <h4 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2 text-center">検索条件を入力</h4>
 
-<div class="container-fluid">
-  <div class="row">
-    <!-- 左側カラム：検索フォームとスポット一覧 -->
-    <div class="col-md-6">
-      <form action="{% url 'lunchmap:top_page' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          <input class="form-control" type="text" name="input_data" maxlength="255">
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <form action="{% url 'lunchmap:top_page' %}" method="post" class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                {% csrf_token %}
+                <div class="w-full sm:w-2/3">
+                    <input class="form-control w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" type="text" name="input_data" maxlength="255" placeholder="店舗名を入力してください">
+                </div>
+                <button type="submit" name="button" class="btn bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-md shadow-md transition duration-300">検索</button>
+            </form>
         </div>
-        <button type="submit" name="button" class="btn btn-info">検索</button>
-      </form>
 
-      <br><br>
-      <h5>スポット一覧</h5>
-      {% for shop in object_list %}
-        <p style="margin: 20px;">
-          <a href="{% url 'lunchmap:detail_page' shop.id %}">{{ shop.name }}</a>
-        </p>
-      {% endfor %}
-    </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h5 class="text-2xl font-bold text-gray-800 mb-6 text-center">スポット一覧</h5>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    {% for shop in object_list %}
+                    <p class="mb-4 pb-2 border-b last:border-b-0">
+                        <a href="{% url 'lunchmap:detail_page' shop.id %}" class="text-indigo-600 hover:text-indigo-800 text-lg font-medium">{{ shop.name }}</a>
+                    </p>
+                    {% empty %}
+                    <p class="text-gray-500 text-center">まだスポットが登録されていません。</p>
+                    {% endfor %}
+                </div>
+            </div>
 
-    <!-- 右側カラム：画像の表示 -->
-    <div class="col-md-6">
-      <h5>画像一覧</h5>
-      {% for shop in object_list %}
-        <div class="mb-4">
-          <h6>{{ shop.name }}</h6>
-          <p>{{ shop.address }}</p>
-          {% if shop.image %}
-            <img src="{{ shop.image.url }}" alt="{{ shop.name }}" width="300" class="img-fluid">
-          {% else %}
-            <p>画像はまだありません</p>
-          {% endif %}
+            <div>
+                <h5 class="text-2xl font-bold text-gray-800 mb-6 text-center">画像一覧</h5>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    {% for shop in object_list %}
+                    <div class="mb-6 pb-6 border-b last:border-b-0">
+                        <h6 class="text-xl font-semibold text-gray-800 mb-1">{{ shop.name }}</h6>
+                        <p class="text-gray-600 text-sm mb-3">{{ shop.address }}</p>
+                        {% if shop.image %}
+                            <img src="{{ shop.image.url }}" alt="{{ shop.name }}" class="w-full h-48 object-cover rounded-md shadow-sm">
+                        {% else %}
+                            <div class="bg-gray-100 flex items-center justify-center h-48 rounded-md text-gray-400 text-sm">
+                                <p>画像はまだありません</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% empty %}
+                    <p class="text-gray-500 text-center">まだ画像が登録されていません。</p>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-      {% endfor %}
     </div>
-  </div>
 </div>
 {% endblock %}

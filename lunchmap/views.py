@@ -1,11 +1,8 @@
 from django.shortcuts import get_object_or_404, render
 from django.views import generic  
 from django.views import View  
-from .models import Shop
+from .models import Shop, Blog # Blogモデルをインポート
 from django.shortcuts import render, get_object_or_404
-
-
-
 
 
 class SampleView(View):  #一覧表示、検索機能のトップページ
@@ -36,40 +33,30 @@ class SampleView(View):  #一覧表示、検索機能のトップページ
 top_page = SampleView.as_view()
 
 
-
-# class DetailView(generic.DetailView):
-#     model = Shop  # 対象のモデルを指定
-#     template_name = 'app_folder/detail_base.html'  # 使用するテンプレートを指定
-#     context_object_name = 'shop'  # テンプレート内での変数名
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         shop = self.get_object()  # 自動的にオブジェクトを取得
-#         context['result_detail_name'] = shop.name
-#         context['result_detail_address'] = shop.address
-#         context['result_detail_author'] = shop.author
-#         context['result_detail_category'] = shop.category
-#         return context
-
 class DetailView(generic.DetailView):
-	def get(self, request, *args, **kwargs): 
-		shop = get_object_or_404(Shop, id = kwargs['pk'])#urlからIDを取得して対照の店を検索
+    def get(self, request, *args, **kwargs): 
+        shop = get_object_or_404(Shop, id=kwargs['pk']) # URLからIDを取得して対象の店を検索
 
+        # 関連するブログ投稿を取得
+        # Blogモデルのshopフィールドが現在のshopオブジェクトを参照しているものをフィルタリング
+        blogs = Blog.objects.filter(shop=shop).order_by('-created_at') # 新しい順に並べ替え
 
-		detail_name = shop.name
-		detail_address = shop.address
-		detail_author = shop.author
-		detail_category = shop.category
-		context = {
-			'result_detail_name' : detail_name,
-			 'result_detail_address' : detail_address,
-			 'result_detail_author' : detail_author,
-			 'result_detail_category' : detail_category,
+        context = {
+            'shop': shop, # Shopオブジェクト自体を渡すと、テンプレートでよりアクセスしやすくなります
+            'result_detail_name': shop.name,
+            'result_detail_address': shop.address,
+            'result_detail_author': shop.author,
+            'result_detail_category': shop.category,
+            'blogs': blogs, # 取得したブログ一覧をコンテキストに追加
+        }
 
-		}
-
-
-
-		return render(request, 'app_folder/detail_base.html', context = context)
+        return render(request, 'app_folder/detail_base.html', context=context)
 
 detail_page = DetailView.as_view()
+
+class BlogPostDetailView(generic.DetailView):
+    model = Blog  # 対象とするモデルはBlog
+    template_name = 'app_folder/blog_post_detail.html'  # 使用するテンプレート
+    context_object_name = 'blog_post'  # テンプレート内で記事を参照する際の変数名
+
+blog_post_detail_view = BlogPostDetailView.as_view()

@@ -23,12 +23,10 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('lunchmap/', include('lunchmap.urls')),#トップページ
     path('admin/', admin.site.urls),#管理サイト
     path('', views.index, name='index'),
-    
-
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)#開発中だけ
